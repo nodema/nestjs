@@ -1,9 +1,11 @@
-import { Entity, Column, PrimaryGeneratedColumn, Unique, CreateDateColumn, UpdateDateColumn, BeforeInsert } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Unique, CreateDateColumn, UpdateDateColumn, BeforeInsert, OneToOne, JoinColumn, OneToMany } from "typeorm";
 import * as bcrypt from 'bcryptjs';
+import { UserProfile } from './userprofile.entity';
+import { ArticleEntity } from "./article.entity";
 @Entity('vben_user')
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({
     unique: true,
@@ -35,10 +37,20 @@ export class User {
   @UpdateDateColumn({ name: 'update_time' })
   updateTime: Date;
 
+  @OneToOne(() => UserProfile, userprofile => userprofile.user, {
+    cascade: true,//加上此语句如果userprofile中也@JoinColumn()会造成循环依赖 Cyclic dependency:
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE'
+  })
+  @JoinColumn()
+  userProfile: UserProfile;
+  @OneToMany(() => ArticleEntity, article => article.author)
+  articles: ArticleEntity[];
   @BeforeInsert()
   async bcryptPassword() {
     this.password = await bcrypt.hash(this.password, 10);
   };
+
 
 
 }

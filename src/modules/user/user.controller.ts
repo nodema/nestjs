@@ -2,9 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, HttpCode, UseFilters
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { HttpExceptionFilter } from '../http-exception/http-exception.filter';
+import { HttpExceptionFilter } from '../../http-exception/http-exception.filter';
 import { ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
+import { Roles } from '../auth/role.decorator';
+import { RolesGuard } from '../auth/role.guard';
 @ApiTags('用户管理')
 @Controller('user')
 export class UserController {
@@ -35,7 +37,8 @@ export class UserController {
   @ApiResponse({ status: 0, description: '成功返回用户列表' })
   //@UseFilters(HttpExceptionFilter)//已全局注册异常过滤器
   //  @HttpCode(204)
-
+  @Roles('admin')
+  @UseGuards(AuthGuard('jwt'), RolesGuard,)
   findAll() {
     //throw new ForbiddenException()
     // throw new HttpException('文字异常', 401)
@@ -50,9 +53,17 @@ export class UserController {
 
 
   //ParesIntPipe 管道解析字符串为数字，非数字时抛出异常
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.findOne(+id);
+  findOne(@Param('id') id: string) {
+    return this.userService.findOne(id);
   }
+  @Get('profile/:id')
+  findIdOne(@Param('id') id: number) {
+    return this.userService.findIdOne(id);
+  }
+
+
+
+
 
   @Patch(':id')
   @ApiOperation({ summary: '更新用户信息' })
@@ -62,8 +73,8 @@ export class UserController {
   @ApiBody({ type: UpdateUserDto })
 
 
-  update(@Param('id', ParseIntPipe) id: number, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
+  update(@Param('id', ParseIntPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+    return this.userService.update(id, updateUserDto);
   }
 
   @Delete(':id')
@@ -74,8 +85,8 @@ export class UserController {
   @ApiParam({ name: 'id', required: true, description: '用户ID' })
 
 
-  remove(@Param('id', ParseIntPipe) id: number) {
-    return this.userService.remove(+id);
+  remove(@Param('id') id: string) {
+    return this.userService.remove(id);
   }
 
 
