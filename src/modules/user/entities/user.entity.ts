@@ -2,7 +2,7 @@ import { Entity, Column, PrimaryGeneratedColumn, Unique, CreateDateColumn, Updat
 import * as bcrypt from 'bcryptjs';
 import { UserProfile } from './userprofile.entity';
 import { ArticleEntity } from "./article.entity";
-@Entity('vben_user')
+@Entity('big_user')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -13,16 +13,12 @@ export class User {
     length: 100
   })
   username: string;
-  @Column({ length: 100 })
-  nickname: string;
+
 
   @Column({ select: false })
   password: string;
 
-  @Column()
-  avatar: string;
-  @Column()
-  email: string;
+
   @Column('simple-enum', { enum: ['admin', 'author', 'user'], default: 'user' })
   role: string;
 

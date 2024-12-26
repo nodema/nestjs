@@ -8,37 +8,23 @@ import { AuthGuard } from '@nestjs/passport';
 import { Roles } from '../auth/role.decorator';
 import { RolesGuard } from '../auth/role.guard';
 @ApiTags('用户管理')
-@Controller('user')
+@Controller('my')
 export class UserController {
   constructor(private readonly userService: UserService) { }
+  //获取用户信息
+  @Get('userinfo')
+  @UseGuards(AuthGuard('jwt'))
+  getUserInfo(@Req() req) {
+    return this.userService.getUserInfo(req.user.id)
 
-  @Post('login')
-  @ApiOperation({ summary: '用户登陆' })
-  @UseGuards(AuthGuard('local'))
-  async login(@Body() dto, @Req() req) {
-    return req.user
-
-  }
-
-  //创建用户
-  @Post()
-  @ApiOperation({ summary: '创建用户' })
-  @ApiResponse({ status: 0, description: '用户创建成功' })
-  @ApiResponse({ status: -1, description: '请求参数错误' })
-  @ApiBody({ type: CreateUserDto })
-
-
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
   }
 
   @Get()
   @ApiOperation({ summary: '获取所有用户' })
   @ApiResponse({ status: 0, description: '成功返回用户列表' })
-  //@UseFilters(HttpExceptionFilter)//已全局注册异常过滤器
-  //  @HttpCode(204)
-  @Roles('admin')
-  @UseGuards(AuthGuard('jwt'), RolesGuard,)
+
+  //@Roles('admin')
+  //@UseGuards(AuthGuard('jwt'), RolesGuard,)
   findAll() {
     //throw new ForbiddenException()
     // throw new HttpException('文字异常', 401)
@@ -53,9 +39,9 @@ export class UserController {
 
 
   //ParesIntPipe 管道解析字符串为数字，非数字时抛出异常
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
-  }
+  // findOne(@Param('id') id: string) {
+  //   return this.userService.findOne(id);
+  // }
   @Get('profile/:id')
   findIdOne(@Param('id') id: number) {
     return this.userService.findIdOne(id);
@@ -73,7 +59,7 @@ export class UserController {
   @ApiBody({ type: UpdateUserDto })
 
 
-  update(@Param('id', ParseIntPipe) id: string, @Body() updateUserDto: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.userService.update(id, updateUserDto);
   }
 

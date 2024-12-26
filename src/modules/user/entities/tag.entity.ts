@@ -4,7 +4,7 @@ import { ArticleEntity } from "./article.entity";
 
 
 
-@Entity({ name: 'vben_tag' })
+@Entity({ name: 'big_tag' })
 export class TagEntity {
   @PrimaryGeneratedColumn()
   id: number;

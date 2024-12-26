@@ -4,13 +4,13 @@ import { ApiTags } from '@nestjs/swagger';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
-@ApiTags('用户注册登陆相关')
+@ApiTags('用户注册登陆权限相关')
 export class AuthController {
   constructor(private readonly authService: AuthService) {
   }
   @Post('register')
   async register(@Body() dto) {
-    return this.authService.createToken(dto);
+    return this.authService.register(dto);
   }
 
   @Post('login')
@@ -20,9 +20,5 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @Get('userInfo')
-  @UseGuards(AuthGuard('jwt'))
-  async getUserInfo(@Req() req) {
-    return this.authService.getUserInfo(req.user)
-  }
+
 }

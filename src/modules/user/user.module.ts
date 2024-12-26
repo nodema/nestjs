@@ -7,18 +7,19 @@ import { PassportModule } from '@nestjs/passport';
 import { LocalStrategy } from 'src/modules/auth/local.strategy';
 import { UserProfile } from './entities/userprofile.entity';
 import { ArticleEntity } from './entities/article.entity';
-import { CategoryEntity } from './entities/category.entity';
+
 import { TagEntity } from './entities/tag.entity';
 import { AuthModule } from '../auth/auth.module';
+import { CategoryEntity } from '../category/entities/category.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, UserProfile, ArticleEntity, CategoryEntity, TagEntity]),
+    TypeOrmModule.forFeature([User, UserProfile, ArticleEntity, TagEntity, CategoryEntity]),
     PassportModule,
     AuthModule
   ],
   controllers: [UserController],
   providers: [UserService, LocalStrategy],
-  exports: [UserService]
+  exports: [UserService, TypeOrmModule]
 })
 export class UserModule { }

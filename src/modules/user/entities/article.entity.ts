@@ -1,13 +1,13 @@
 import exp from "constants";
 import { Column, Entity, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn } from "typeorm";
-import { CategoryEntity } from "./category.entity";
+import { CategoryEntity } from "../../category/entities/category.entity";
 import { TagEntity } from "./tag.entity";
 import { User } from "./user.entity";
 
 
 
 
-@Entity({ name: 'vben_article' })
+@Entity({ name: 'big_article' })
 export class ArticleEntity {
   @PrimaryGeneratedColumn()
   id: number;

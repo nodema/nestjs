@@ -1,6 +1,6 @@
 import { Entity, Column, PrimaryGeneratedColumn, Unique, CreateDateColumn, UpdateDateColumn, BeforeInsert, OneToOne, JoinColumn } from "typeorm";
 import { User } from "./user.entity";
-@Entity('vben_user_info')
+@Entity('big_user_info')
 export class UserProfile {
   @PrimaryGeneratedColumn()
   id: number;

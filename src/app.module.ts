@@ -7,6 +7,8 @@ import { BookModule } from './modules/book/book.module';
 import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
+import { CategoryModule } from './modules/category/category.module';
+
 
 
 @Module({
@@ -27,11 +29,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         username: configService.get('DB_USER') as string,
         password: configService.get('DB_PASS') as string,
         database: configService.get('DB_NAME') as string,
-        // host: 'localhost',
-        // port: 3306,
-        // username: 'root',
-        // password: '123456',
-        // database: 'vbendev',
+
         autoLoadEntities: true,//自动加载实体文件
         synchronize: true,
 
@@ -42,7 +40,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
     }),
     UserModule,
     AuthModule,
-    BookModule
+    BookModule,
+    CategoryModule
+
 
   ],
 
