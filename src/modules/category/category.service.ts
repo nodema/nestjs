@@ -28,7 +28,7 @@ export class CategoryService {
     return this.categoryRepository.update(updateCategoryDto.id, updateCategoryDto);
   }
 
-  remove(id: number) {
+  remove(id: string) {
     return this.categoryRepository.delete({ id });
   }
 }

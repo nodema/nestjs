@@ -23,8 +23,8 @@ export class ArticleEntity {
   @Column({ type: 'mediumtext', default: null })
   contentHtml: string;
   //封面图
-  @Column({ default: null, name: 'cover_url' })
-  coverUrl: string;
+  @Column({ default: null })
+  cover_img: string;
   //阅读量
   @Column({ type: 'int', default: 0 })
   views: number;
@@ -32,14 +32,14 @@ export class ArticleEntity {
   @Column({ type: 'int', default: 0 })
   likes: number;
   //文章状态
-  @Column('simple-enum', { enum: ['draft', 'published'], default: 'draft' })
-  status: string;
+  @Column('simple-enum', { enum: ['草稿', '已发布'], default: '草稿' })
+  state: string;
   //是否推荐
   @Column({ type: 'tinyint', default: 0 })
   isRecommend: number;
   //分类
   @ManyToOne(() => CategoryEntity, category => category.articles)
-  category: CategoryEntity;
+  cate_id: CategoryEntity;
   //标签
   @ManyToMany(() => TagEntity, tag => tag.articles)
   @JoinTable({
@@ -50,9 +50,9 @@ export class ArticleEntity {
   tags: TagEntity[];
   //作者
   @ManyToOne(() => User, user => user.articles)
-  author: User;
+  author_id: User | null;
   @CreateDateColumn()
-  createTime: Date;
+  pub_date: Date;
   @UpdateDateColumn()
-  updateTime: Date;
+  upd_date: Date;
 }

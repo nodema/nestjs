@@ -3,11 +3,12 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './modules/user/user.module';
-import { BookModule } from './modules/book/book.module';
 import { User } from './modules/user/entities/user.entity';
 import { AuthModule } from './modules/auth/auth.module';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { CategoryModule } from './modules/category/category.module';
+import { ArticleModule } from './modules/article/article.module';
+
 
 
 
@@ -40,8 +41,10 @@ import { CategoryModule } from './modules/category/category.module';
     }),
     UserModule,
     AuthModule,
-    BookModule,
-    CategoryModule
+
+    CategoryModule,
+    ArticleModule,
+
 
 
   ],

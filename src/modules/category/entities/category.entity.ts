@@ -7,10 +7,10 @@ import { ArticleEntity } from "../../user/entities/article.entity";
 @Entity({ name: 'big_category' })
 export class CategoryEntity {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
   @Column()
   cate_name: string;
-  @OneToMany(() => ArticleEntity, articleEntity => articleEntity.category)
+  @OneToMany(() => ArticleEntity, articleEntity => articleEntity.cate_id)
   articles: ArticleEntity[];
   @Column()
   cate_alias: string;

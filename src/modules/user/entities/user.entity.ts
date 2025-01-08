@@ -13,11 +13,27 @@ export class User {
     length: 100
   })
   username: string;
-
+  @Column({
+    default: null,
+    comment: '用户昵称',
+    length: 100
+  })
+  nickname: string;
 
   @Column({ select: false })
   password: string;
+  @Column({
+    default: null,
+    comment: '用户邮箱',
+    length: 100
+  })
+  email: string;
+  @Column({
+    default: null,
+    comment: '用户头像',
 
+  })
+  user_pic: string;
 
   @Column('simple-enum', { enum: ['admin', 'author', 'user'], default: 'user' })
   role: string;
@@ -40,7 +56,7 @@ export class User {
   })
   @JoinColumn()
   userProfile: UserProfile;
-  @OneToMany(() => ArticleEntity, article => article.author)
+  @OneToMany(() => ArticleEntity, article => article.author_id)
   articles: ArticleEntity[];
   @BeforeInsert()
   async bcryptPassword() {

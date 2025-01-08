@@ -26,7 +26,11 @@ export class UserService {
   }
   //获取用户信息
   getUserInfo(id: string) {
-    return this.userRepository.findOneBy({ id });//findOneBy({ id })查询方法;
+    return this.userRepository.findOne({
+      where: { id },
+      select: ['id', 'username', 'nickname', 'email', 'user_pic'],
+
+    });//findOneBy({ id })查询方法;
     // return this.userRepository.findOne({
     //   where: { id },
     //   relations: ['userProfile']
@@ -41,8 +45,9 @@ export class UserService {
 
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
-    return this.userRepository.update(id, updateUserDto);
+  update(updateUserDto: UpdateUserDto) {
+    const { id, ...data } = updateUserDto;
+    return this.userRepository.update(id, data);
   }
 
   remove(id: string) {
